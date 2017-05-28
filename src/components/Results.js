@@ -7,11 +7,13 @@ class Results extends Component {
     	<div className="results">
         {this.props.data &&
           this.props.data.map(function(artist) {
+            const image = artist.images[0];
+            const imageUrl = image ? image.url : '';
             return <Item
               key={artist.id}
               name={artist.name}
               url={artist.external_urls.spotify}
-              image={artist.images[0].url}
+              image={imageUrl}
               followers={artist.followers.total}
             />
           })

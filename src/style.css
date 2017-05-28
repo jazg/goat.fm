@@ -4,11 +4,12 @@ body {
   font-family: sans-serif;
 }
 .header {
-  padding: 10px 0;
+  padding: 5px 0;
 }
 .header input {
   background-color: #f5f5f5;
   border: none;
+  font-size: 14px;
   width: 300px;
   padding: 15px;
   display: block;
@@ -16,6 +17,7 @@ body {
   outline: none;
 }
 .results .item {
+  background-color: #f5f5f5;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
