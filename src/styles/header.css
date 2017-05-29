@@ -1,0 +1,9 @@
+.header {
+  padding: 5px 0;
+}
+.header .search {
+  transition: width 0.2s ease-in-out;
+}
+.header .search:focus {
+  width: 320px;
+}

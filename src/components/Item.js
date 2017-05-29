@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
 
 class Item extends Component {
+	constructor (props) {
+    super(props);
+    this.state = {
+			selected: false
+		};
+  }
+
   render() {
 		var image = {
 			backgroundImage: 'url(' + this.props.image + ')'
 	  }
 
 		return (
-    	<div className="item" style={image}></div>
+    	<div className={this.props.selected ? 'item active' : 'item'} onClick={this.handleClick.bind(this)} style={image}>
+				<span>{this.props.name}</span>
+			</div>
 		);
+  }
+
+	handleClick() {
+		this.props.onClick(this.props.id);
+		this.setState({ selected: !this.props.selected });
   }
 }
 

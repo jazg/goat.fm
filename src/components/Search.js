@@ -6,8 +6,8 @@ class Search extends Component {
     super(props);
     this.state = {
 			query: '',
-      artist: null,
-      data: null
+      artist: [],
+      data: []
 		};
   }
 
@@ -15,7 +15,7 @@ class Search extends Component {
 		return(
 			<div className="container">
         <div className="header">
-          <input type="text" placeholder="Search for a music artist" onKeyPress={this.handleKeyPress.bind(this)} />
+          <input type="text" id="search" className="search" placeholder="Search for a music artist" onKeyPress={this.handleKeyPress.bind(this)} autoFocus />
         </div>
 				<Results data={this.state.data} />
 			</div>
@@ -23,13 +23,15 @@ class Search extends Component {
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') this.submitQuery(e.target.value);
+    if (e.key === 'Enter') {
+      this.submitQuery(e.target.value);
+    }
   }
 
   submitQuery(search) {
     const query = search.trim().toLowerCase();
     if (this.state.query === query) return // to prevent redundant requests
-    window.location.hash = encodeURIComponent(query);
+    window.location.hash = '/search/' + encodeURIComponent(query);
     this.setState({ query });
     if (query) this.findArtist(query);
   }
@@ -43,6 +45,7 @@ class Search extends Component {
 
         if (artist.length) {
           this.setState({ artist });
+          document.getElementById('search').value = artist[0].name;
           this.findRelated(artist[0].id);
         }
       }).catch(error => console.log(error));
