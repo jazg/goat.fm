@@ -21,7 +21,7 @@ class Item extends Component {
   }
 
 	handleClick() {
-		this.props.onClick(this.props.id);
+		this.props.onClick(this.props.name);
 		this.setState({ selected: !this.props.selected });
   }
 }

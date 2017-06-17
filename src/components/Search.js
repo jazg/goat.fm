@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Results from './Results';
+import * as globals from '../globals.js';
 
 class Search extends Component {
   constructor (props) {
@@ -31,32 +32,33 @@ class Search extends Component {
   submitQuery(search) {
     const query = search.trim().toLowerCase();
     if (this.state.query === query) return // to prevent redundant requests
-    window.location.hash = '/search/' + encodeURIComponent(query);
+    // window.location.hash = '/search/' + encodeURIComponent(query);
     this.setState({ query });
     if (query) this.findArtist(query);
   }
 
   findArtist(artist) {
-    const url = 'https://api.spotify.com/v1/search?q=' + encodeURIComponent(artist) + '&type=artist&limit=1';
+    const url = `${globals.URL}?method=artist.search&artist=${encodeURIComponent(artist)}&api_key=${globals.API_KEY}&format=json&limit=1`
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        const artist = json.artists.items;
+        const artist = json.results.artistmatches.artist;
 
         if (artist.length) {
+          const name = artist[0].name;
           this.setState({ artist });
-          document.getElementById('search').value = artist[0].name;
-          this.findRelated(artist[0].id);
+          document.getElementById('search').value = name;
+          this.findRelated(name);
         }
       }).catch(error => console.log(error));
   }
 
-  findRelated(id) {
-    const url = 'https://api.spotify.com/v1/artists/' + encodeURIComponent(id) + '/related-artists';
+  findRelated(artist) {
+    const url = `${globals.URL}?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${globals.API_KEY}&format=json&limit=19`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        const data = this.state.artist.concat(json.artists);
+        const data = this.state.artist.concat(json.similarartists.artist);
         this.setState({ data });
       }).catch(error => console.log(error));
   }

@@ -5,7 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './styles/main.css';
 import './styles/header.css';
 import './styles/results.css';
-import './styles/playlist.css';
+import './styles/player.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
