@@ -40,7 +40,7 @@ class Results extends Component {
             }.bind(this))
           }
         </div>
-				<Player track={this.state.current} />
+				<Player track={this.state.current} onEvent={this.handleEvent.bind(this)} />
       </div>
 		);
   }
@@ -52,7 +52,6 @@ class Results extends Component {
       artists.splice(index, 1);
       this.removeTracks(name);
     } else {
-      if (this.state.current == null) this.updateCurrent();
       artists.push(name);
       this.addTracks(name);
     }
@@ -60,17 +59,22 @@ class Results extends Component {
   }
 
   addTracks(artist) {
-    const url = `${globals.URL}?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${globals.API_KEY}&format=json`;
+    const url = `${globals.URL_FM}?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${globals.KEY_FM}&format=json`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        const unplayed = this.state.unplayed.concat(json.toptracks.track);
-        this.setState({ unplayed: this.shuffleTracks(unplayed) });
+        var unplayed = this.state.unplayed.concat(json.toptracks.track);
+        unplayed = this.shuffleTracks(unplayed);
+        if (this.state.current == null) {
+          this.setState({ current: unplayed[0] });
+          unplayed.shift();
+        }
+        this.setState({ unplayed });
       }).catch(error => console.log(error));
   }
 
   removeTracks(artist) {
-		const unplayed = this.state.unplayed.slice();
+		var unplayed = this.state.unplayed.slice();
     for (var i = unplayed.length - 1; i >= 0; i--) {
       if (artist === unplayed[i].artist.name) unplayed.splice(i, 1);
     }
@@ -87,12 +91,30 @@ class Results extends Component {
 		return tracks;
 	}
 
-  updateCurrent() {
-    const unplayed = this.state.unplayed.slice();
-    this.setState({
-      unplayed: unplayed.splice(0, 1),
-      current: unplayed[0]
-    });
+  handleEvent(action) {
+    var played = (this.state.played.length ? this.state.played.slice() : []);
+    var unplayed = this.state.unplayed.slice();
+    var current = this.state.current;
+    switch(action) {
+      case 'prev':
+        if (played.length) {
+          unplayed.unshift(current);
+          current = played[played.length - 1];
+          played.pop();
+        }
+        break;
+      case 'next':
+        played.push(current);
+        current = unplayed[0];
+        unplayed.shift();
+        break;
+      default:
+        break;
+    }
+    this.setState({ played, unplayed, current });
+    console.log(played, 'Played');
+    console.log(current, 'Current');
+    console.log(unplayed, 'Unplayed');
   }
 }
 

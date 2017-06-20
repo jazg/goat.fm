@@ -6,6 +6,8 @@ import './styles/main.css';
 import './styles/header.css';
 import './styles/results.css';
 import './styles/player.css';
+import './styles/controls.css';
+import './styles/video.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

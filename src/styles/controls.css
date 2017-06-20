@@ -1,0 +1,28 @@
+.controls {
+	background-color: white;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	padding: 5px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+.controls .item {
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	cursor: pointer;
+}
+.controls .item#play {
+	background-image: url('img/pause.svg');
+}
+.controls.paused .item#play {
+	background-image: url('img/play.svg');
+}
+.controls .item#prev {
+	background-image: url('img/prev.svg');
+}
+.controls .item#next {
+	background-image: url('img/next.svg');
+}

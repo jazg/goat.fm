@@ -31,14 +31,13 @@ class Search extends Component {
 
   submitQuery(search) {
     const query = search.trim().toLowerCase();
-    if (this.state.query === query) return // to prevent redundant requests
-    // window.location.hash = '/search/' + encodeURIComponent(query);
+    if (this.state.query === query) return; // to prevent redundant requests
     this.setState({ query });
     if (query) this.findArtist(query);
   }
 
   findArtist(artist) {
-    const url = `${globals.URL}?method=artist.search&artist=${encodeURIComponent(artist)}&api_key=${globals.API_KEY}&format=json&limit=1`
+    const url = `${globals.URL_FM}?method=artist.search&artist=${encodeURIComponent(artist)}&api_key=${globals.KEY_FM}&format=json&limit=1`
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -54,7 +53,7 @@ class Search extends Component {
   }
 
   findRelated(artist) {
-    const url = `${globals.URL}?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${globals.API_KEY}&format=json&limit=19`;
+    const url = `${globals.URL_FM}?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${globals.KEY_FM}&format=json&limit=19`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
