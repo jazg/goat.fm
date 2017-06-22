@@ -8,13 +8,18 @@ class Item extends Component {
 		};
   }
 
+	componentDidUpdate() {
+		const selected = this.props.selected;
+		if (selected !== this.state.selected) this.setState({ selected });
+	}
+
   render() {
 		var image = {
 			backgroundImage: 'url(' + this.props.image + ')'
 	  }
 
 		return (
-    	<div className={this.props.selected ? 'item active' : 'item'} onClick={this.handleClick.bind(this)} style={image}>
+    	<div className={this.state.selected ? 'item active' : 'item'} onClick={this.handleClick.bind(this)} style={image}>
 				<span>{this.props.name}</span>
 			</div>
 		);
@@ -22,7 +27,7 @@ class Item extends Component {
 
 	handleClick() {
 		this.props.onClick(this.props.name);
-		this.setState({ selected: !this.props.selected });
+		this.setState({ selected: !this.state.selected });
   }
 }
 

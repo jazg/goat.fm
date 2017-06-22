@@ -20,12 +20,11 @@ class Video extends Component {
 	}
 
   render() {
+		const autoplay = this.props.play ? 1 : 0;
 		const opts = {
 			height: '195',
 			width: '320',
-			playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
+			playerVars: { autoplay }
 		};
 		return (
 			<div className="video">
@@ -34,10 +33,7 @@ class Video extends Component {
 						videoId={this.state.id}
 						opts={opts}
 						onReady={this.onReady.bind(this)}
-						// onPlay={this.handleState.bind(this)}
-						// onPause={this.handleState.bind(this)}
-						onEnd={this.handleState.bind(this)}
-						onError={this.handleState.bind(this)}
+						onStateChange={this.handleState.bind(this)}
 					/>
 				}
 			</div>

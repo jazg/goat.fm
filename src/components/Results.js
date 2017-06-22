@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Tags from './Tags';
 import Item from './Item';
 import Player from './Player';
 import * as globals from '../globals.js';
@@ -17,6 +18,7 @@ class Results extends Component {
   render() {
 		return (
       <div className={this.state.artists.length > 0 ? 'content selected' : 'content'}>
+        <Tags artists={this.state.artists} onClick={this.handleClick.bind(this)} />
       	<div className="results">
           {this.props.data &&
             this.props.data.map(function(artist, index) {
@@ -75,10 +77,12 @@ class Results extends Component {
 
   removeTracks(artist) {
 		var unplayed = this.state.unplayed.slice();
+    var current = this.state.current;
     for (var i = unplayed.length - 1; i >= 0; i--) {
-      if (artist === unplayed[i].artist.name) unplayed.splice(i, 1);
+      if (unplayed[i].artist.name === artist) unplayed.splice(i, 1);
     }
-		this.setState({ unplayed });
+    if (current && current.artist.name === artist) current = unplayed[0];
+		this.setState({ unplayed, current });
 	}
 
   shuffleTracks(tracks) {

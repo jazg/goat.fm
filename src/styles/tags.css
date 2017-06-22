@@ -1,0 +1,33 @@
+.tags {
+	background-color: #f5f7fa;
+	height: 0;
+	overflow-x: scroll;
+	white-space: nowrap;
+	transition: height 0.2s ease-in-out;
+}
+.tags.visible {
+	height: 46px;
+}
+.tags span {
+	background-color: #ff0039;
+	color: white;
+	font-size: 14px;
+	padding: 10px;
+	margin: 5px 0 5px 5px;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+}
+.tags span:before {
+	content: '';
+	background-color: white;
+	height: 2px;
+	width: 0;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: width 0.2s ease-in-out;
+}
+.tags span:hover:before {
+	width: calc(100% - 20px);
+}

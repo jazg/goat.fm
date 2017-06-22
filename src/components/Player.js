@@ -15,7 +15,10 @@ class Player extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.track) return;
+    if (!this.props.track) {
+      if (this.state.playing) this.setState({ playing: false });
+      return;
+    }
     if (!this.state.visible) this.setState({ visible: true });
     const current = this.props.track;
     if (current !== this.state.current) {
@@ -46,14 +49,19 @@ class Player extends Component {
 
   // handles events from the controls as well as the youtube videos
   handleEvent(e) {
-    // youtube response codes
-    if (e === 1 || e === 2) e = 'play';
-    else if (e === 0) e = 'next';
+    const playing = this.state.playing;
     switch(e) {
+      case 1: // youtube response codes
       case 'play':
-        const playing = this.state.playing;
-        this.setState({ playing: !playing });
+        if (!playing)
+          this.setState({ playing: true });
         break;
+      case 2:
+      case 'pause':
+        if (playing)
+          this.setState({ playing: false });
+        break;
+      case 0:
       case 'prev':
       case 'next':
         this.props.onEvent(e);

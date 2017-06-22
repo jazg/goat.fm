@@ -6,6 +6,7 @@ class Controls extends Component {
       <div className={'controls' + (!this.props.play ? ' paused' : '')}>
 				<span id="prev" className="item" onClick={this.handleClick.bind(this)}></span>
 				<span id="play" className="item" onClick={this.handleClick.bind(this)}></span>
+        <span id="pause" className="item" onClick={this.handleClick.bind(this)}></span>
 				<span id="next" className="item" onClick={this.handleClick.bind(this)}></span>
 			</div>
 		);
