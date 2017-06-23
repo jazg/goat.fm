@@ -20,7 +20,7 @@ class Search extends Component {
     const query = window.location.href.split('/').pop();
     if (!query) return;
     this.setState({ query, urlValue: true, inputFocused: false }, function() {
-      this.updateSuggestions();
+      this.findExact();
     });
   }
 
@@ -33,7 +33,7 @@ class Search extends Component {
             ref="search"
             className="search"
             placeholder="Search for a music artist"
-            onKeyPress={this.handleKeyPress.bind(this)}
+            onKeyUp={this.handleKeyPress.bind(this)}
             onFocus={this.showDropdown.bind(this)}
             onBlur={this.hideDropdown.bind(this)}
           />
@@ -57,20 +57,52 @@ class Search extends Component {
   handleKeyPress(e) {
     const query = e.target.value.trim();
     this.setState({ query }, function() {
-      this.updateSuggestions();
+      this.findExact();
     });
+    if (e.key === 'Enter') this.handleClick(0); // if 'enter' select first artist
+    else this.setState({ inputFocused: true }); // else ensure suggestions are visible
   }
 
-  updateSuggestions() {
+  // tries to suggest exact artist user is searching for
+  findExact() {
     const query = this.state.query;
-    if (!query) return;
-    const url = `${globals.URL_FM}?method=artist.search&artist=${encodeURIComponent(query)}&api_key=${globals.KEY_FM}&format=json&limit=5`;
+    const url = `${globals.URL_FM}?method=artist.search&artist="${encodeURIComponent(query)}"&api_key=${globals.KEY_FM}&format=json&limit=1`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         const suggestions = json.results.artistmatches.artist;
-        this.setState({ suggestions });
-        if (this.state.urlValue) this.handleClick(0);
+        this.setState({ suggestions }, function() {
+          this.findSimilar();
+        });
+      }).catch(error => console.log(error));
+  }
+
+  // suggests artists similar to search query
+  findSimilar() {
+    const query = this.state.query;
+    const existing = this.state.suggestions;
+    const url = `${globals.URL_FM}?method=artist.search&artist=${encodeURIComponent(query)}&api_key=${globals.KEY_FM}&format=json&limit=5`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        const items = json.results.artistmatches.artist;
+        var suggestions;
+        if (!existing.length) {
+          suggestions = items;
+        } else {
+          var found = false;
+          for (var i = 0; i < items.length; i++) { // check if json already contains exact artist
+            if (items[i].name === existing[0].name) {
+              found = true;
+              break;
+            }
+          }
+          suggestions = found ? items : existing.concat(items);
+          if (!found) suggestions.pop(); // remove last element if concatenating
+        }
+        this.setState({ suggestions }, function() {
+          if (this.state.urlValue) this.handleClick(0); // choose first value if artist is set in url
+        });
       }).catch(error => console.log(error));
   }
 
