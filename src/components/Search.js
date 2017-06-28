@@ -57,7 +57,8 @@ class Search extends Component {
   handleKeyPress(e) {
     const query = e.target.value.trim();
     this.setState({ query }, function() {
-      this.findExact();
+      if (this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(this.findExact.bind(this), 250);
     });
     if (e.key === 'Enter') this.handleClick(0); // if 'enter' select first artist
     else this.setState({ inputFocused: true }); // else ensure suggestions are visible

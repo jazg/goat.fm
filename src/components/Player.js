@@ -15,10 +15,6 @@ class Player extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.track) {
-      if (this.state.playing) this.setState({ playing: false });
-      return;
-    }
     if (!this.state.visible) this.setState({ visible: true });
     const current = this.props.track;
     if (current !== this.state.current) {
@@ -65,6 +61,7 @@ class Player extends Component {
       case 'prev':
       case 'next':
         this.props.onEvent(e);
+        this.setState({ playing: true });
         break;
       default:
         break;
