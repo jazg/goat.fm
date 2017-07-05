@@ -26,7 +26,7 @@ class Search extends Component {
 
   render() {
 		return(
-			<div className="container">
+      <div className={this.state.artists.length > 0 ? 'container' : 'container no-results'}>
         <div className="header">
           <input
             type="text"
@@ -67,6 +67,10 @@ class Search extends Component {
   // tries to suggest exact artist user is searching for
   findExact() {
     const query = this.state.query;
+    if (!this.state.query) {
+      this.setState({ suggestions: [] });
+      return;
+    }
     const url = `${globals.URL_FM}?method=artist.search&artist="${encodeURIComponent(query)}"&api_key=${globals.KEY_FM}&format=json&limit=1`;
     fetch(url)
       .then((response) => response.json())
@@ -108,6 +112,7 @@ class Search extends Component {
   }
 
   handleClick(index) {
+    if (this.state.suggestions.length === 0) return;
     const selected = this.state.suggestions[index];
     this.setState({ selected, inputFocused: false }, function() {
       this.updateArtist();

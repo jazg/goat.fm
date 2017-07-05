@@ -8,7 +8,6 @@ import './styles/search.css';
 import './styles/dropdown.css';
 import './styles/tags.css';
 import './styles/results.css';
-import './styles/player.css';
 import './styles/controls.css';
 import './styles/video.css';
 

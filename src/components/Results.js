@@ -17,10 +17,10 @@ class Results extends Component {
 
   render() {
 		return (
-      <div className={this.state.artists.length > 0 ? 'content selected' : 'content'}>
+      <div className="content">
         <Tags artists={this.state.artists} onClick={this.handleClick.bind(this)} />
-      	<div className="results">
-          {this.props.data &&
+        <div className="results">
+          {this.props.data.length > 0 &&
             this.props.data.map(function(artist, index) {
               const name = artist.name;
               const image = artist.image[4];
@@ -42,7 +42,9 @@ class Results extends Component {
             }.bind(this))
           }
         </div>
-				<Player track={this.state.current} onEvent={this.handleEvent.bind(this)} />
+        {this.state.current &&
+          <Player track={this.state.current} onEvent={this.handleEvent.bind(this)} />
+        }
       </div>
 		);
   }
