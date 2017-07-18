@@ -9,6 +9,7 @@ class Search extends Component {
     this.state = {
 			query: '',
       suggestions: [],
+      suggestionHover: 0,
       selected: null,
       artists: [],
       urlValue: false,
@@ -33,12 +34,12 @@ class Search extends Component {
             ref="search"
             className="search"
             placeholder="Search for a music artist"
-            onKeyUp={this.handleKeyPress.bind(this)}
+            onKeyDown={this.handleKeyPress.bind(this)}
             onFocus={this.showDropdown.bind(this)}
             onBlur={this.hideDropdown.bind(this)}
           />
           {this.state.inputFocused &&
-            <Suggestions data={this.state.suggestions} onClick={this.handleClick.bind(this)} />
+            <Suggestions data={this.state.suggestions} hovered={this.state.suggestionHover} onHover={this.handleHover.bind(this)} onClick={this.handleClick.bind(this)} />
           }
         </div>
 				<Results data={this.state.artists} />
@@ -47,7 +48,10 @@ class Search extends Component {
   }
 
   showDropdown() {
-    this.setState({ inputFocused: true });
+    this.setState({
+      suggestionHover: 0,
+      inputFocused: true
+    });
   }
 
   hideDropdown() {
@@ -55,13 +59,37 @@ class Search extends Component {
   }
 
   handleKeyPress(e) {
-    const query = e.target.value.trim();
-    this.setState({ query }, function() {
-      if (this.timeout) clearTimeout(this.timeout);
-      this.timeout = setTimeout(this.findExact.bind(this), 250);
-    });
-    if (e.key === 'Enter') this.handleClick(0); // if 'enter' select first artist
-    else this.setState({ inputFocused: true }); // else ensure suggestions are visible
+    var hovered = this.state.suggestionHover;
+    var length = this.state.suggestions.length;
+    switch (e.key) {
+      case 'ArrowUp':
+        hovered--;
+        hovered = ((hovered % length) + length) % length;
+        this.setState({ suggestionHover: hovered });
+        break;
+      case 'ArrowDown':
+        hovered++;
+        hovered = ((hovered % length) + length) % length;
+        this.setState({ suggestionHover: hovered });
+        break;
+      case 'Enter':
+        this.handleClick(hovered); // select hovered artist
+        break;
+      case 'ArrowLeft':
+      case 'ArrowRight':
+      case 'Ctrl':
+      case 'Alt':
+      case 'Shift':
+      case 'Meta':
+        break; // don't do anything for these keys
+      default:
+        const query = e.target.value.trim();
+        this.setState({ query }, function() {
+          if (this.timeout) clearTimeout(this.timeout);
+          this.timeout = setTimeout(this.findExact.bind(this), 250);
+        });
+        this.showDropdown(); // ensure suggestions are visible
+    }
   }
 
   // tries to suggest exact artist user is searching for
@@ -109,6 +137,10 @@ class Search extends Component {
           if (this.state.urlValue) this.handleClick(0); // choose first value if artist is set in url
         });
       }).catch(error => console.log(error));
+  }
+
+  handleHover(index) {
+    this.setState({ suggestionHover: index });
   }
 
   handleClick(index) {

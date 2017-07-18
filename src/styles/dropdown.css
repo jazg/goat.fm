@@ -16,7 +16,7 @@
 	font-size: 14px;
 	padding: 10px;
 }
-.dropdown li:hover {
+.dropdown li.hover {
 	background-color: #f5f7fa;
 }
 .dropdown li span.title {

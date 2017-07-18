@@ -7,7 +7,7 @@ class Suggestions extends Component {
 				{this.props.data &&
 					this.props.data.map(function(artist, index) {
 						return (
-							<li key={index} onMouseDown={this.handleClick.bind(this, index)}>
+							<li className={index === this.props.hovered ? 'hover' : ''} key={index} onMouseOver={this.handleHover.bind(this, index)} onMouseDown={this.handleClick.bind(this, index)}>
 								<span className="title">{artist.name}</span>
 								<span className="listeners">{artist.listeners}</span>
 							</li>
@@ -16,6 +16,10 @@ class Suggestions extends Component {
 				}
 			</ul>
 		);
+  }
+
+  handleHover(index, e) {
+    this.props.onHover(index);
   }
 
 	handleClick(index, e) {
