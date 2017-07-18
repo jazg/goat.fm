@@ -62,8 +62,8 @@ class Search extends Component {
   }
 
   handleKeyPress(e) {
-    var disclude = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Ctrl', 'Alt', 'Shift', 'Meta'];
-    if (disclude.indexOf(e.key) > -1) return;
+    var exclude = ['Alt', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'CapsLock', 'Control', 'End', 'Home', 'Insert', 'Meta', 'OS', 'PrintScreen', 'ScrollLock', 'Shift', 'Tab'];
+    if (exclude.indexOf(e.key) > -1) return; // don't do anything for these keys
     if (e.key === 'Enter') {
       this.handleClick(this.state.suggestionHover); // select hovered artist
     } else {
