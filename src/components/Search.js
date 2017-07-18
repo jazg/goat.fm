@@ -122,19 +122,18 @@ class Search extends Component {
       .then((response) => response.json())
       .then((json) => {
         const items = json.results.artistmatches.artist;
-        var suggestions;
-        if (!existing.length) {
-          suggestions = items;
-        } else {
-          var found = false;
-          for (var i = 0; i < items.length; i++) { // check if json already contains exact artist
-            if (items[i].name === existing[0].name) {
-              found = true;
+        var suggestions = items;
+        if (existing.length) {
+          var index = -1;
+          for (var i = 0; i < suggestions.length; i++) { // check if json already contains exact artist
+            if (suggestions[i].name === existing[0].name) {
+              index = i;
               break;
             }
           }
-          suggestions = found ? items : existing.concat(items);
-          if (!found) suggestions.pop(); // remove last element if concatenating
+          if (index > -1) suggestions.splice(index, 1);
+          else suggestions.pop();
+          suggestions.unshift(existing[0]); // add exact artist to beginning
         }
         this.setState({ suggestions }, function() {
           if (this.state.urlValue) this.handleClick(0); // choose first value if artist is set in url
