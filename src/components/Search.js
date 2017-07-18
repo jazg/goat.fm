@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Suggestions from './Suggestions';
 import Results from './Results';
+import logo from '../styles/img/logo.svg';
 import * as globals from '../globals.js';
 
 class Search extends Component {
@@ -29,12 +30,14 @@ class Search extends Component {
 		return(
       <div className={this.state.artists.length > 0 ? 'container' : 'container no-results'}>
         <div className="header">
+          <img className="logo" src={logo} alt="goat.fm" />
           <input
             type="text"
             ref="search"
             className="search"
             placeholder="Search for a music artist"
-            onKeyDown={this.handleKeyPress.bind(this)}
+            onKeyUp={this.handleKeyPress.bind(this)}
+            onKeyDown={this.handleArrowKeys.bind(this)}
             onFocus={this.showDropdown.bind(this)}
             onBlur={this.hideDropdown.bind(this)}
           />
@@ -59,6 +62,21 @@ class Search extends Component {
   }
 
   handleKeyPress(e) {
+    var disclude = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Ctrl', 'Alt', 'Shift', 'Meta'];
+    if (disclude.indexOf(e.key) > -1) return;
+    if (e.key === 'Enter') {
+      this.handleClick(this.state.suggestionHover); // select hovered artist
+    } else {
+      const query = e.target.value.trim();
+      this.setState({ query }, function() {
+        if (this.timeout) clearTimeout(this.timeout);
+        this.timeout = setTimeout(this.findExact.bind(this), 250);
+      });
+      this.showDropdown(); // ensure suggestions are visible
+    }
+  }
+
+  handleArrowKeys(e) {
     var hovered = this.state.suggestionHover;
     var length = this.state.suggestions.length;
     switch (e.key) {
@@ -72,23 +90,8 @@ class Search extends Component {
         hovered = ((hovered % length) + length) % length;
         this.setState({ suggestionHover: hovered });
         break;
-      case 'Enter':
-        this.handleClick(hovered); // select hovered artist
-        break;
-      case 'ArrowLeft':
-      case 'ArrowRight':
-      case 'Ctrl':
-      case 'Alt':
-      case 'Shift':
-      case 'Meta':
-        break; // don't do anything for these keys
       default:
-        const query = e.target.value.trim();
-        this.setState({ query }, function() {
-          if (this.timeout) clearTimeout(this.timeout);
-          this.timeout = setTimeout(this.findExact.bind(this), 250);
-        });
-        this.showDropdown(); // ensure suggestions are visible
+        break;
     }
   }
 

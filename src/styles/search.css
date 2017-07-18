@@ -8,10 +8,13 @@
   display: block;
   margin: 0 auto;
   outline: none;
-}
-.search {
   transition: width 0.2s ease-in-out;
 }
 .search:focus {
   width: 420px;
+}
+@media(min-width: 768px) {
+  .container.no-results .search {
+    max-width: none;
+  }
 }

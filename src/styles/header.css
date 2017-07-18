@@ -1,5 +1,33 @@
 .header {
   background-color: white;
-  padding: 5px 0;
   position: relative;
+  padding: 5px 0;
+}
+.logo {
+  width: 80px;
+  margin: 10px auto;
+  display: block;
+}
+@media(min-width: 768px) {
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    margin: 0;
+  }
+}
+@media(min-width: 768px) {
+  .container.no-results .header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .container.no-results .logo {
+    width: 140px;
+    top: calc(50% - 60px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

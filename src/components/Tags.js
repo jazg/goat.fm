@@ -28,7 +28,7 @@ class Tags extends Component {
   }
 
 	handleClick(e) {
-		this.props.onClick(e.target.innerText);
+		this.props.onClick(e.target.textContent);
   }
 }
 

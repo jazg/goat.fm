@@ -12,3 +12,8 @@ body {
   background-color: #f5f7fa;
   height: 100vh;
 }
+@media(min-width: 768px) {
+  .container.no-results {
+    background-color: transparent;
+  }
+}
