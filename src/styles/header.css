@@ -26,7 +26,7 @@
   }
   .container.no-results .logo {
     width: 140px;
-    top: calc(50% - 60px);
+    top: calc(50% - 120px);
     left: 50%;
     transform: translate(-50%, -50%);
   }

@@ -6,7 +6,7 @@
 	transition: height 0.2s ease-in-out;
 }
 .tags.visible {
-	height: 45px;
+	height: 75px;
 }
 .tags span {
 	background-color: #ff0039;

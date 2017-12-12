@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Suggestions from './Suggestions';
 import Results from './Results';
-import logo from '../styles/img/logo.svg';
+import logo from '../styles/img/logo.png';
 import * as globals from '../globals.js';
 
 class Search extends Component {

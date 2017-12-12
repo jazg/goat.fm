@@ -2,7 +2,7 @@
 	background-color: white;
 	padding: 0 10px;
 	position: fixed;
-	left: 0;
+	right: 0;
 	bottom: 0;
 	z-index: 10;
 }
@@ -10,7 +10,7 @@
 	background-size: 24px;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  width: 40px;
+  width: 100px;
   height: 40px;
   display: inline-block;
   vertical-align: middle;
