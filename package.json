@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-ga": "^2.3.5",
     "react-youtube": "^7.4.0"
   },
   "devDependencies": {

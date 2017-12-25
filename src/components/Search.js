@@ -3,6 +3,9 @@ import Suggestions from './Suggestions';
 import Results from './Results';
 import logo from '../styles/img/logo.png';
 import * as globals from '../globals.js';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-111596525-1');
+ReactGA.pageview('SearchPage');
 
 class Search extends Component {
   constructor (props) {
@@ -163,6 +166,10 @@ class Search extends Component {
   }
 
   findRelated() {
+    ReactGA.event({
+      category: 'User',
+      action: 'Searched for'+ this.state.selected
+    });
     const selected = this.state.selected;
     if (!selected) return;
     const url = `${globals.URL_FM}?method=artist.getsimilar&artist=${encodeURIComponent(selected.name)}&api_key=${globals.KEY_FM}&format=json&limit=19`;
