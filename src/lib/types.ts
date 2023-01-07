@@ -1,10 +1,17 @@
+interface Image {
+  url: string;
+  height: number;
+  width: number;
+}
+
 export interface Artist {
-  name: string;
   id: string;
-  images: Image[];
+  name: string;
+  images?: Image[];
 }
 
 export interface Track {
+  artists: Artist[];
   href: string;
   id: string;
   name: string;
@@ -12,10 +19,13 @@ export interface Track {
   preview_url: string;
 }
 
-interface Image {
-  url: string;
-  height: number;
-  width: number;
+export interface Video {
+  id: {
+    videoId: string;
+  };
+  snippet: {
+    title: string;
+  };
 }
 
 export interface SearchResponse {
@@ -32,4 +42,8 @@ export interface RelatedArtistsResponse {
 
 export interface TopTracksResponse {
   tracks: Track[];
+}
+
+export interface VideoResponse {
+  items: Video[];
 }

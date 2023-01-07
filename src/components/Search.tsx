@@ -14,6 +14,7 @@ function Search(props: SearchProps) {
 
   const searchArtists = async () => {
     try {
+      // TODO: Move HTTP requests to a library.
       const searchResp = await axios.get(
         `https://api.spotify.com/v1/search?type=artist&q=${query}`,
         {
