@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { Artist, TopTracksResponse, Track } from "../lib/types";
+import Tags from "./Tags";
 import Player from "./Player";
 
 interface ResultsProps {
   token: string;
-  artists: Artist[];
+  artists: Artist[]; // All artists returned from the search query.
 }
 
 function Results(props: ResultsProps) {
@@ -14,26 +15,26 @@ function Results(props: ResultsProps) {
   const [unplayed, setUnplayed] = useState<Track[]>([]);
   const [played, setPlayed] = useState<Track[]>([]);
 
-  const handleArtist = async (artist: Artist) => {
+  const addArtist = (artist: Artist) => {
     let newSelected = new Map(selected);
-    if (selected.get(artist.id)) {
-      // The artist has been deselected.
-      newSelected.delete(artist.id);
-      setSelected(newSelected);
-      removeTracks(artist);
-    } else {
-      newSelected.set(artist.id, artist);
-      setSelected(newSelected);
-      addTracks(artist);
-    }
+    newSelected.set(artist.id, artist);
+    setSelected(newSelected);
+    addTracks(artist.id);
   };
 
-  const addTracks = async (artist: Artist) => {
+  const removeArtist = (id: string) => {
+    let newSelected = new Map(selected);
+    newSelected.delete(id);
+    setSelected(newSelected);
+    removeTracks(id);
+  };
+
+  const addTracks = async (id: string) => {
     try {
       // Fetch the artist's top tracks.
       // TODO: Move HTTP requests to a library.
       const topTracksResp = await axios.get(
-        `https://api.spotify.com/v1/artists/${artist.id}/top-tracks?market=US`,
+        `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,
         {
           headers: {
             Authorization: `Bearer ${props.token}`,
@@ -56,12 +57,12 @@ function Results(props: ResultsProps) {
     }
   };
 
-  const removeTracks = async (artist: Artist) => {
+  const removeTracks = async (id: string) => {
     // Remove artist from the queue of unplayed tracks.
     let newUnplayed = unplayed.slice();
     for (let i = unplayed.length - 1; i >= 0; i--) {
       for (const a of unplayed[i].artists) {
-        if (a.id === artist.id) newUnplayed.splice(i, 1);
+        if (a.id === id) newUnplayed.splice(i, 1);
       }
     }
     setUnplayed(newUnplayed);
@@ -69,7 +70,7 @@ function Results(props: ResultsProps) {
     // Update current track if it is the artist being removed.
     if (current) {
       for (const a of current.artists) {
-        if (a.id === artist.id) {
+        if (a.id === id) {
           setCurrent(newUnplayed[0]);
         }
       }
@@ -86,8 +87,39 @@ function Results(props: ResultsProps) {
     return tracks;
   };
 
+  const handlePrev = () => {
+    if (!current) {
+      return;
+    }
+
+    let newUnplayed = unplayed.slice();
+    let newPlayed = played.slice();
+    const newCurrent = played[played.length - 1];
+    newUnplayed.unshift(current);
+    newPlayed.pop();
+    setCurrent(newCurrent);
+    setUnplayed(newUnplayed);
+    setPlayed(newPlayed);
+  };
+
+  const handleNext = () => {
+    if (!current) {
+      return;
+    }
+
+    let newUnplayed = unplayed.slice();
+    let newPlayed = played.slice();
+    const newCurrent = unplayed[0];
+    newUnplayed.shift();
+    newPlayed.push(current);
+    setCurrent(newCurrent);
+    setUnplayed(newUnplayed);
+    setPlayed(newPlayed);
+  };
+
   return (
     <>
+      <Tags artists={selected} removeArtist={removeArtist} />
       <div className="flex flex-wrap">
         {props.artists.map((artist, i) => {
           const active = selected.get(artist.id);
@@ -109,7 +141,11 @@ function Results(props: ResultsProps) {
             >
               <div
                 className="absolute top-0 bg-white opacity-0 text-center vertical-middle w-full h-full ease-in-out duration-150"
-                onClick={() => handleArtist(artist)}
+                onClick={() =>
+                  selected.get(artist.id)
+                    ? removeArtist(artist.id) // The artist has been deselected.
+                    : addArtist(artist)
+                }
               >
                 <span className="flex h-full justify-center items-center text-sm">
                   {artist.name}
@@ -120,7 +156,13 @@ function Results(props: ResultsProps) {
         })}
       </div>
 
-      {current && <Player current={current} />}
+      {current && (
+        <Player
+          current={current}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+      )}
     </>
   );
 }

@@ -5,9 +5,12 @@ import { Track, VideoResponse } from "../lib/types";
 
 interface PlayerProps {
   current: Track;
+  handlePrev: () => void;
+  handleNext: () => void;
 }
 
 function Player(props: PlayerProps) {
+  const [playing, setPlaying] = useState(true);
   const [videoID, setVideoID] = useState("");
 
   useEffect(() => {
@@ -20,25 +23,52 @@ function Player(props: PlayerProps) {
     const videoResp = await axios.get(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
         query
-      )}&type=video&key=AIzaSyDfrcPA8V2cEZp7IVauGJgwSZI6k1JJvgI`
+      )}&type=video&key=AIzaSyBcNRYIrTQSl4CevgDjWjjyQp-SfvzJU10`
     );
     const videoData = videoResp.data as VideoResponse;
     setVideoID(videoData.items[0].id.videoId);
+    setPlaying(true);
   };
 
   return (
     <>
       {videoID && (
-        <ReactPlayer
-          className="fixed bottom-0 right-0"
-          url={`https://www.youtube.com/watch?v=${videoID}`}
-          config={{
-            playerVars: {
-              autoplay: 1,
-              modestbranding: 1,
-            },
-          }}
-        />
+        <div className="fixed bottom-0 right-0">
+          <div className="flex justify-between items-center absolute bottom-0 bg-white border-t-[1px] border-black w-full h-9">
+            <span
+              className="ml-4 cursor-pointer hover:underline"
+              onClick={() => setPlaying(!playing)}
+            >
+              {playing ? "Pause" : "Play"}
+            </span>
+            <div>
+              <span
+                className="mr-4 cursor-pointer hover:underline"
+                onClick={props.handlePrev}
+              >
+                Prev
+              </span>
+              <span
+                className="mr-4 cursor-pointer hover:underline"
+                onClick={props.handleNext}
+              >
+                Next
+              </span>
+            </div>
+          </div>
+          <ReactPlayer
+            className="relative bottom-9 pointer-events-none"
+            url={`https://www.youtube.com/watch?v=${videoID}`}
+            playing={playing}
+            config={{
+              playerVars: {
+                loop: 1,
+              },
+            }}
+            onEnded={props.handleNext}
+            handl
+          />
+        </div>
       )}
     </>
   );

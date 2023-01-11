@@ -1,23 +1,29 @@
 import { Artist } from "../lib/types";
 
 interface TagsProps {
-  suggestions: Artist[];
+  artists: Map<string, Artist>;
+  removeArtist: (id: string) => void;
 }
 
 function Tags(props: TagsProps) {
   return (
-    <div className="flex flex-nowrap items-center h-9 overflow-scroll">
-      {props.suggestions.map((artist, i) => {
-        return (
-          <span
-            key={i}
-            className="text-xs whitespace-nowrap ml-4 cursor-pointer hover:underline"
-          >
-            {artist.name}
-          </span>
-        );
-      })}
-    </div>
+    <>
+      {props.artists.size > 0 && (
+        <div className="flex flex-nowrap items-center h-9 overflow-scroll mt-2 mb-4 mr-4">
+          {[...props.artists.values()].map((artist, i) => {
+            return (
+              <span
+                key={i}
+                className="flex items-center border-[1px] border-black text-xs whitespace-nowrap h-9 ml-4 px-4 cursor-pointer"
+                onClick={() => props.removeArtist(artist.id)}
+              >
+                {artist.name} {"\u00D7"}
+              </span>
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
 
