@@ -11,6 +11,7 @@ To run the client:
 ```sh
 cd client
 yarn
+yarn dev
 ```
 
 To run the web server locally, you will need to generate a Spotify client secret. You can do this through the [developer dashboard](https://developer.spotify.com/dashboard/applications). Then you can run:
