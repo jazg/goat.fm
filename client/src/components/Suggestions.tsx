@@ -2,6 +2,7 @@ import { Artist } from "../lib/types";
 
 interface SuggestionsProps {
   artists: Artist[];
+  setQuery: (query: string) => void;
 }
 
 function Suggestions(props: SuggestionsProps) {
@@ -12,6 +13,7 @@ function Suggestions(props: SuggestionsProps) {
           <span
             key={i}
             className="text-xs whitespace-nowrap ml-4 cursor-pointer hover:underline"
+            onClick={() => props.setQuery(artist.name)}
           >
             {artist.name}
           </span>

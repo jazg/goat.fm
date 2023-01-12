@@ -11,7 +11,7 @@ const node_querystring_1 = __importDefault(require("node:querystring"));
 const app = (0, express_1.default)();
 const port = 3000;
 const clientID = "876c87b4c82f4872aa0a4cfc3bca89e8";
-const clientSecret = "c50367bb4e884dae9cc66fed026e285b"; // FIXME: Use environment variable.
+const clientSecret = process.env.SPOTIFY_SECRET;
 const redirectURI = `http://localhost:5173/callback`;
 const stateKey = "spotify_auth_state";
 app.use((0, cors_1.default)()).use((0, cookie_parser_1.default)());
@@ -86,6 +86,7 @@ app.get("/refresh_token", (req, res) => {
     };
     request_1.default.post(authOptions, function (error, response, body) {
         if (!error && response.statusCode === 200) {
+            console.log("sending", body.access_token, body.expires_in);
             res.send({
                 access_token: body.access_token,
                 expires_in: body.expires_in,
