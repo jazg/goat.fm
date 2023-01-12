@@ -1,0 +1,23 @@
+{
+  "name": "goat-server",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn build && node ./build/index.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/query-string": "^6.3.0",
+    "@types/request": "^2.48.8",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "query-string": "^8.1.0",
+    "request": "^2.88.2",
+    "typescript": "^4.9.4"
+  }
+}

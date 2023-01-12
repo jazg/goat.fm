@@ -6,13 +6,13 @@ A visual music discovery platform.
 
 ## TODO
 
-- Improve Spotify authentication (currently it uses a limited time access token)
-- Show selected artists
 - Integrate last.fm API
+- Persist YouTube search results to minimise API requests
 
 ## Stack
 
 - vite: Development tooling
+- Express: Web server
 - React: JS library
 - TypeScript: Programming language
 - Tailwind: CSS framework
