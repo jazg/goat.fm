@@ -97,7 +97,6 @@ app.get("/refresh_token", (req, res) => {
 
   request.post(authOptions, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      console.log("sending", body.access_token, body.expires_in); // FIXME: Remove this
       res.send({
         access_token: body.access_token,
         expires_in: body.expires_in,

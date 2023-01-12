@@ -13,7 +13,6 @@ function App() {
   const [suggestions, setSuggestions] = useState([] as Artist[]);
 
   useEffect(() => {
-    console.log("running"); // FIXME: Remove this
     // Periodically check the token has not expired.
     checkTokenExpiry();
     setInterval(() => {
@@ -58,12 +57,10 @@ function App() {
   };
 
   const checkTokenExpiry = async () => {
-    console.log("checking"); // FIXME: Remove this
     if (localStorage.getItem("accessToken")) {
       const expiresIn = localStorage.getItem("expiresIn");
       // If there is less than 10 minutes left, refresh the token.
       if (Date.now() + 10 * 60 * 1000 >= Number(expiresIn)) {
-        console.log("refreshing", Date.now(), expiresIn); // FIXME: Remove this
         // Refresh the access token.
         const resp = await axios.get(
           `/refresh_token?refresh_token=${localStorage.getItem("refreshToken")}`
