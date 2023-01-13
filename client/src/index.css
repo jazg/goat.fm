@@ -4,6 +4,11 @@
 
 @layer base {
     body {
+        background-color: #f9f4eb;
         font-family: "Graphik";
+    }
+
+    h1 {
+        @apply text-5xl;
     }
 }

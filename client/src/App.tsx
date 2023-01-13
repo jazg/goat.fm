@@ -82,6 +82,12 @@ function App() {
   };
 
   const searchArtists = async () => {
+    if (!query) {
+      setArtists([]);
+      setSuggestions([]);
+      return;
+    }
+
     try {
       // TODO: Move HTTP requests to a library.
       const searchResp = await axios.get(
@@ -134,7 +140,7 @@ function App() {
       ) : (
         <div className="flex justify-center items-center h-screen">
           <a
-            className="flex bg-[#1db954] border-[1px] border-black text-xs text-white h-9 mt-6 px-4 items-center cursor-pointer"
+            className="flex justify-center bg-[#1db954] border-[1px] border-black text-md text-white w-60 h-16 mt-6 px-4 items-center cursor-pointer"
             href="/login"
           >
             <img className="w-4 mr-2" src={spotify} />

@@ -147,7 +147,7 @@ function Results(props: ResultsProps) {
                     : addArtist(artist)
                 }
               >
-                <span className="flex h-full justify-center items-center text-sm">
+                <span className="flex h-full justify-center items-center text-md">
                   {artist.name}
                 </span>
               </div>
