@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Artist, TopTracksResponse, Track } from "../lib/types";
+import { Album, AlbumsResponse, Artist, Track } from "../lib/types";
 import Tags from "./Tags";
 import Player from "./Player";
 
@@ -31,18 +31,34 @@ function Results(props: ResultsProps) {
 
   const addTracks = async (id: string) => {
     try {
-      // Fetch the artist's top tracks.
+      // Get 20 random tracks for the selected artist.
       // TODO: Move HTTP requests to a library.
-      const topTracksResp = await axios.get(
-        `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,
+      const n = 20;
+      const albumsResp = await axios.get(
+        `https://api.spotify.com/v1/artists/${id}/albums`,
         {
           headers: {
             Authorization: `Bearer ${props.token}`,
           },
         }
       );
-      const tracksData = topTracksResp.data as TopTracksResponse;
-      let newUnplayed = unplayed.concat(tracksData.tracks);
+      const albumsData = albumsResp.data as AlbumsResponse;
+      let tracks: Track[] = [];
+      for (let album of albumsData.items) {
+        const albumResp = await axios.get(
+          `https://api.spotify.com/v1/albums/${album.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+            },
+          }
+        );
+        const albumData = albumResp.data as Album;
+        tracks = tracks.concat(albumData.tracks!.items);
+      }
+      tracks = shuffleTracks(tracks).slice(0, n);
+
+      let newUnplayed = unplayed.concat(tracks);
       newUnplayed = shuffleTracks(newUnplayed);
 
       // Set the current track if there are no songs playing.

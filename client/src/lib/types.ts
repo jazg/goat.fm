@@ -10,6 +10,11 @@ export interface Artist {
   images?: Image[];
 }
 
+export interface Album {
+  id: string;
+  tracks?: TracksResponse;
+}
+
 export interface Track {
   artists: Artist[];
   href: string;
@@ -40,8 +45,12 @@ export interface RelatedArtistsResponse {
   artists: Artist[];
 }
 
-export interface TopTracksResponse {
-  tracks: Track[];
+export interface AlbumsResponse {
+  items: Album[];
+}
+
+export interface TracksResponse {
+  items: Track[];
 }
 
 export interface RefreshResponse {
