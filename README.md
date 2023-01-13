@@ -14,18 +14,17 @@ yarn
 yarn dev
 ```
 
-To run the web server locally, you will need to generate a Spotify client secret. You can do this through the [developer dashboard](https://developer.spotify.com/dashboard/applications). Then you can run:
+To run the web server locally, you will need to generate a Spotify client secret and a Google API key. You can do this through the [Spotify developer dashboard](https://developer.spotify.com/dashboard/applications) and [Google Cloud console](https://console.cloud.google.com/apis). Then you can run:
 
 ```sh
 cd server
 yarn
-SPOTIFY_SECRET=<your-spotify-client-secret> yarn dev
+SPOTIFY_SECRET=<your-spotify-client-secret> GOOGLE_KEY=<your-google-key> yarn dev
 ```
 
 ## TODO
 
-- Integrate last.fm API
-- Persist YouTube search results to minimise API requests
+- Integrate last.fm API for improved suggestions
 
 ## Stack
 

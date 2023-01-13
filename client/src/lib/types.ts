@@ -44,6 +44,11 @@ export interface TopTracksResponse {
   tracks: Track[];
 }
 
+export interface RefreshResponse {
+  accessToken: string;
+  expiresIn: number;
+}
+
 export interface VideoResponse {
-  items: Video[];
+  id: string;
 }

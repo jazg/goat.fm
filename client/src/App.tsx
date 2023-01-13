@@ -3,7 +3,12 @@ import axios from "axios";
 import Header from "./components/Header";
 import Suggestions from "./components/Suggestions";
 import Results from "./components/Results";
-import { Artist, RelatedArtistsResponse, SearchResponse } from "./lib/types";
+import {
+  Artist,
+  RefreshResponse,
+  RelatedArtistsResponse,
+  SearchResponse,
+} from "./lib/types";
 import { BsSpotify } from "react-icons/bs";
 
 function App() {
@@ -62,10 +67,11 @@ function App() {
       // If there is less than 10 minutes left, refresh the token.
       if (Date.now() + 10 * 60 * 1000 >= Number(expiresIn)) {
         // Refresh the access token.
-        const resp = await axios.get(
+        const refreshResp = await axios.get(
           `/refresh_token?refresh_token=${localStorage.getItem("refreshToken")}`
         );
-        storeToken(resp.data.access_token, resp.data.expires_in, undefined);
+        const refreshData = refreshResp.data as RefreshResponse;
+        storeToken(refreshData.accessToken, refreshData.expiresIn, undefined);
       }
     }
   };
@@ -130,7 +136,7 @@ function App() {
   };
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary h-screen">
       {token ? (
         <>
           <Header query={query} setQuery={setQuery} />
@@ -138,7 +144,7 @@ function App() {
           <Results token={token} artists={artists} />
         </>
       ) : (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-full">
           <a
             className="flex justify-center bg-[#1db954] border-[1px] border-black text-md text-white w-60 h-16 mt-6 px-4 items-center cursor-pointer"
             href="/login"

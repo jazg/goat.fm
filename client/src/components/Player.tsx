@@ -18,15 +18,13 @@ function Player(props: PlayerProps) {
   }, [props.current]);
 
   const fetchVideo = async (track: Track) => {
-    const query = track.artists[0].name + " - " + track.name;
     // TODO: Move HTTP requests to a library.
-    const videoResp = await axios.get(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-        query
-      )}&type=video&key=AIzaSyBcNRYIrTQSl4CevgDjWjjyQp-SfvzJU10`
-    );
+    const videoResp = await axios.post("/find_video", {
+      artist: track.artists[0].name,
+      title: track.name,
+    });
     const videoData = videoResp.data as VideoResponse;
-    setVideoID(videoData.items[0].id.videoId);
+    setVideoID(videoData.id);
     setPlaying(true);
   };
 
