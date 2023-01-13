@@ -30,25 +30,7 @@ function Results(props: ResultsProps) {
   };
 
   const addTracks = async (id: string) => {
-    setCurrent({
-      name: "smile on my face",
-      artists: [{ name: "fred again", id: "" }],
-      href: "",
-      id: "",
-      popularity: 0,
-      preview_url: "",
-    });
-    setUnplayed([
-      {
-        name: "dancing in the shadows",
-        artists: [{ name: "tsha", id: "" }],
-        href: "",
-        id: "",
-        popularity: 0,
-        preview_url: "",
-      },
-    ]);
-    /* try {
+    try {
       // Fetch the artist's top tracks.
       // TODO: Move HTTP requests to a library.
       const topTracksResp = await axios.get(
@@ -72,7 +54,7 @@ function Results(props: ResultsProps) {
       setUnplayed(newUnplayed);
     } catch (error) {
       console.error(error);
-    } */
+    }
   };
 
   const removeTracks = async (id: string) => {
