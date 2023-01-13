@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Suggestions from "./components/Suggestions";
 import Results from "./components/Results";
 import { Artist, RelatedArtistsResponse, SearchResponse } from "./lib/types";
-import spotify from "./assets/spotify.svg";
+import { BsSpotify } from "react-icons/bs";
 
 function App() {
   const [token, setToken] = useState("");
@@ -130,7 +130,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="bg-primary">
       {token ? (
         <>
           <Header query={query} setQuery={setQuery} />
@@ -143,12 +143,12 @@ function App() {
             className="flex justify-center bg-[#1db954] border-[1px] border-black text-md text-white w-60 h-16 mt-6 px-4 items-center cursor-pointer"
             href="/login"
           >
-            <img className="w-4 mr-2" src={spotify} />
+            <BsSpotify className="mr-2" />
             Login with Spotify
           </a>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

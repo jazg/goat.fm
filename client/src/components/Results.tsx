@@ -30,7 +30,25 @@ function Results(props: ResultsProps) {
   };
 
   const addTracks = async (id: string) => {
-    try {
+    setCurrent({
+      name: "smile on my face",
+      artists: [{ name: "fred again", id: "" }],
+      href: "",
+      id: "",
+      popularity: 0,
+      preview_url: "",
+    });
+    setUnplayed([
+      {
+        name: "dancing in the shadows",
+        artists: [{ name: "tsha", id: "" }],
+        href: "",
+        id: "",
+        popularity: 0,
+        preview_url: "",
+      },
+    ]);
+    /* try {
       // Fetch the artist's top tracks.
       // TODO: Move HTTP requests to a library.
       const topTracksResp = await axios.get(
@@ -54,7 +72,7 @@ function Results(props: ResultsProps) {
       setUnplayed(newUnplayed);
     } catch (error) {
       console.error(error);
-    }
+    } */
   };
 
   const removeTracks = async (id: string) => {
@@ -140,7 +158,7 @@ function Results(props: ResultsProps) {
               }
             >
               <div
-                className="absolute top-0 bg-white opacity-0 text-center vertical-middle w-full h-full ease-in-out duration-150"
+                className="absolute top-0 bg-primary opacity-0 text-center vertical-middle w-full h-full ease-in-out duration-150"
                 onClick={() =>
                   selected.get(artist.id)
                     ? removeArtist(artist.id) // The artist has been deselected.

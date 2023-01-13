@@ -34,7 +34,7 @@ function Player(props: PlayerProps) {
     <>
       {videoID && (
         <div className="fixed bottom-0 right-0">
-          <div className="flex justify-between items-center absolute bottom-0 bg-white border-t-[1px] border-black w-full h-9">
+          <div className="flex justify-between items-center absolute bottom-0 bg-primary border-t-[1px] border-black w-full h-9">
             <span
               className="ml-4 cursor-pointer hover:underline"
               onClick={() => setPlaying(!playing)}
