@@ -30,6 +30,7 @@ SPOTIFY_SECRET=<your-spotify-client-secret> GOOGLE_KEY=<your-google-key> yarn de
 
 - vite: Development tooling
 - Express: Web server
+- MongoDB: Server database
 - React: JS library
 - TypeScript: Programming language
 - Tailwind: CSS framework
