@@ -14,6 +14,12 @@ yarn
 yarn dev
 ```
 
+To run the database, you will first need to install MongoDB. Then you can run:
+
+```sh
+mongod --config /usr/local/etc/mongod.conf --fork
+```
+
 To run the web server locally, you will need to generate a Spotify client secret and a Google API key. You can do this through the [Spotify developer dashboard](https://developer.spotify.com/dashboard/applications) and [Google Cloud console](https://console.cloud.google.com/apis). Then you can run:
 
 ```sh
