@@ -8,7 +8,7 @@ import Video from "./model/video";
 
 const app = express();
 const port = 3000;
-const spotifyClientID = "876c87b4c82f4872aa0a4cfc3bca89e8";
+const spotifyClientID = process.env.SPOTIFY_CLIENT_ID;
 const spotifyClientSecret = process.env.SPOTIFY_SECRET;
 const googleKeys = process.env.GOOGLE_KEYS
   ? process.env.GOOGLE_KEYS.split(",")

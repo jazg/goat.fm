@@ -25,7 +25,7 @@ To run the web server locally, you will need to generate a Spotify client secret
 ```sh
 cd server
 yarn
-SPOTIFY_SECRET=<your-spotify-client-secret> GOOGLE_KEY=<your-google-key> yarn dev
+SPOTIFY_CLIENT_ID=<your-spotify-client-id> SPOTIFY_SECRET=<your-spotify-client-secret> GOOGLE_KEY=<your-google-key> yarn dev
 ```
 
 ## TODO
